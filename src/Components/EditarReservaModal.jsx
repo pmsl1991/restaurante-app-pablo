@@ -8,6 +8,7 @@ const EditarReservaModal = ({ reserva, onClose, onGuardar, onEliminar }) => {
   const [fecha, setFecha] = useState('');
   const [hora, setHora] = useState('');
   const [cliente, setCliente] = useState('');
+  const [plato, setPlato] = useState('');
 
   useEffect(() => {
     if (reserva) {
@@ -16,11 +17,12 @@ const EditarReservaModal = ({ reserva, onClose, onGuardar, onEliminar }) => {
       setFecha(reserva.fecha);
       setHora(reserva.hora);
       setCliente(reserva.cliente);
+      setPlato(reserva.plato || '');
     }
   }, [reserva]);
 
   const handleGuardar = () => {
-    const reservaActualizada = { mesa, comensales, fecha, hora, cliente };
+    const reservaActualizada = { mesa, comensales, fecha, hora, cliente, plato };
     onGuardar(reservaActualizada);
   };
 
@@ -36,12 +38,17 @@ const EditarReservaModal = ({ reserva, onClose, onGuardar, onEliminar }) => {
         <h3>Editar Reserva</h3>
 
         <label>Mesa</label>
-        <select value={mesa} onChange={(e) => setMesa(e.target.value)}>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-        </select>
+          <select value={mesa} onChange={(e) => setMesa(e.target.value)}>
+            {Array.from({ length: 16 }, (_, i) => {
+              const nombreMesa = `Mesa ${i + 1}`;
+              return (
+                <option key={i + 1} value={nombreMesa}>
+                  {nombreMesa}
+                </option>
+              );
+            })}
+          </select>
+
 
         <label>Comensales</label>
         <input type="number" value={comensales} onChange={(e) => setComensales(e.target.value)} />
@@ -54,6 +61,10 @@ const EditarReservaModal = ({ reserva, onClose, onGuardar, onEliminar }) => {
 
         <label>Cliente</label>
         <input type="text" value={cliente} onChange={(e) => setCliente(e.target.value)} />
+
+        <label>Plato</label>
+        <input type="text" value={plato} onChange={(e) => setPlato(e.target.value)} />
+
 
         <div className="modal-buttons">
           <button onClick={onClose}>Cerrar</button>

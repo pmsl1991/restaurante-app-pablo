@@ -1,5 +1,6 @@
 import '../Styles/HeroSection.css';
 import Container from './Container';
+import React, { useState } from 'react';
 
 const Menu = () => {
    const menuItems = [
@@ -8,6 +9,9 @@ const Menu = () => {
       { name: 'Carne Asada', price: '$8', description: 'Jugosa carne a la parrilla con especias especiales', image: '/assets/carne.jpeg' },
       { name: 'Pollo Asado', price: '$20', description: 'Pollo marinado y asado a la perfección', image: '/assets/pollo.jpeg' },
    ];
+   const [mensaje, setMensaje] = useState('');
+   const [mostrarToast, setMostrarToast] = useState(false);
+
 
    const handleElegirPlato = (plato) => {
       const user = JSON.parse(localStorage.getItem('user'));
@@ -17,7 +21,12 @@ const Menu = () => {
       }
 
       localStorage.setItem('platoReservado', JSON.stringify(plato));
-      alert(`${plato.name} agregado a tu reservación.`);
+      setMensaje(`🍽️ ${plato.name} agregado a tu reservación `);
+      setMostrarToast(true);
+      setTimeout(() => {
+            setMostrarToast(false);
+         }, 3000);
+      
    };
 
 
@@ -45,6 +54,13 @@ const Menu = () => {
                ))}
             </ul>
          </Container>
+        {mostrarToast && (
+            <div className="plato-toast">
+               {mensaje}
+               <button onClick={() => setMostrarToast(false)}>✖</button>
+            </div>
+         )}
+
       </section>
    );
 };

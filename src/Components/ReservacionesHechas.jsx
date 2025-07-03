@@ -40,7 +40,7 @@ const ReservacionesHechas = () => {
       const fecha = moment(start).format('YYYY-MM-DD');
       const reservasGuardadas = JSON.parse(localStorage.getItem('reservasHechas')) || [];
       setFechaSeleccionada(fecha);
-      setReservasDelDia(reservasGuardadas); // Mostrar todas las reservas sin filtrar
+      setReservasDelDia(reservasGuardadas); 
 
    };
 
@@ -67,30 +67,35 @@ const ReservacionesHechas = () => {
                </div>
 
                <div style={{ flex: '1 1 300px', backgroundColor: '#f9fafb', borderRadius: '10px', padding: '1rem' }}>
-                  <h3 style={{ color: '#111827', marginBottom: '1rem' }}>
-                    {fechaSeleccionada ? `Reservas para ${fechaSeleccionada}` : 'Todas las reservas'}
-                  </h3>
+            <h3 style={{ color: '#111827', marginBottom: '1rem' }}>
+               {fechaSeleccionada ? `Reservas para ${fechaSeleccionada}` : 'Todas las reservas'}
+            </h3>
 
-                  {reservasDelDia.length === 0 ? (
-                     <p style={{ color: '#6b7280' }}>No hay reservas para esta fecha.</p>
-                  ) : (
-                     reservasDelDia.map((reserva, i) => (
-                        <div
-                            key={i}
-                            className="reserva-item"
-                            onClick={() => setReservaSeleccionada(reserva)}
-                            style={{ cursor: 'pointer' }}
-                            >
-                            <div>
-                                <strong>{reserva.mesa}</strong> — {reserva.hora}
-                            </div>
-                            <span className="cliente">{reserva.cliente}</span>
-                        </div>
-
-                     ))
+            {reservasDelDia.length === 0 ? (
+               <p style={{ color: '#6b7280' }}>No hay reservas para esta fecha.</p>
+            ) : (
+               reservasDelDia.map((reserva, i) => (
+                  <div
+                  key={i}
+                  className="reserva-item"
+                  onClick={() => setReservaSeleccionada(reserva)}
+                  style={{ cursor: 'pointer' }}
+                  >
+                  <div>
+                     <strong>{reserva.mesa}</strong> — {reserva.hora}
+                  </div>
+                  <span className="cliente">{reserva.cliente}</span>
+                  {reserva.comensales && (
+                     <div style={{ fontSize: '0.9rem', color: '#6b7280' }}>
+                        Comensales: {reserva.comensales}
+                     </div>
                   )}
-               </div>
+                  </div>
+               ))
+            )}
             </div>
+            </div>
+            
          </Container>
          {reservaSeleccionada && (
             <EditarReservaModal
