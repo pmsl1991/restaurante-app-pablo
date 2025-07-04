@@ -5,6 +5,7 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import '../Styles/HeroSection.css';
 import Container from './Container';
 import EditarReservaModal from './EditarReservaModal';
+import { Clock, UsersRound } from 'lucide-react';
 
 
 const localizer = momentLocalizer(moment);
@@ -79,15 +80,19 @@ const ReservacionesHechas = () => {
                   key={i}
                   className="reserva-item"
                   onClick={() => setReservaSeleccionada(reserva)}
-                  style={{ cursor: 'pointer' }}
+                  style={{ cursor: 'pointer' , display:"flex", flexDirection: "column", marginBottom: '1rem', padding: '0.5rem', borderRadius: '8px', backgroundColor: '#ffff', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)'}}
                   >
-                  <div>
-                     <strong>{reserva.mesa}</strong> — {reserva.hora}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                     <p style={{textTransform:'capitalize', fontWeight: 'bolder', fontSize: '18px'}}>{reserva.cliente}</p> 
+                     <span style={{ color: '#ffff', backgroundColor:'#f97316', padding:'3px 12px', borderRadius:'5px', fontSize:'15px' }}>{reserva.mesa}</span>
                   </div>
-                  <span className="cliente">{reserva.cliente}</span>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem', fontSize: '0.9rem', color: '#6b7280' }}>
+                     <span sty>{reserva.numero}</span>
+                  </div>
                   {reserva.comensales && (
-                     <div style={{ fontSize: '0.9rem', color: '#6b7280' }}>
-                        Comensales: {reserva.comensales}
+                     <div style={{ fontSize: '0.9rem', color: '#6b7280', display: 'flex', alignItems: 'center', flexDirecction: 'colum', gap: '15px' }}>
+                        <Clock style={{width:'18px', height:'18px', marginRight:'5px'}}/> {moment(reserva.hora, 'HH:mm').format('hh:mm A')} <span style={{ margin: '0 5px' }}>|</span>
+                        <UsersRound style={{width:'18px', height:'18px', marginRight:'5px'}}/> {reserva.comensales} Comensales
                      </div>
                   )}
                   </div>
