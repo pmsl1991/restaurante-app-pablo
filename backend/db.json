@@ -54,6 +54,16 @@
       "numero": "987654321",
       "comensales": "2",
       "id": 2
+    },
+    {
+      "cliente": "erick pulache",
+      "plato": "",
+      "mesa": "Mesa 4",
+      "fecha": "2025-07-25",
+      "hora": "16:30",
+      "numero": "987654321",
+      "comensales": "2",
+      "id": 3
     }
   ],
   "platoSeleccionado": [
