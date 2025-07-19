@@ -27,8 +27,10 @@ const EditarReservaModal = ({ reserva, onClose, onGuardar, onEliminar }) => {
   };
 
   const handleEliminar = () => {
-    onEliminar();
+    onEliminar();     
+    onClose();        
   };
+
 
   if (!reserva) return null;
 
