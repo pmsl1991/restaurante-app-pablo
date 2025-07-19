@@ -163,10 +163,17 @@ const ReservacionesHechas = () => {
               method: 'DELETE'
             })
               .then(() => {
+                // Elimina del estado global de eventos
                 setEventos(prev => prev.filter(ev => ev.id !== reservaSeleccionada.id));
+
+                // Elimina del estado de reservas mostradas en el panel derecho
+                setReservasDelDia(prev => prev.filter(r => r.id !== reservaSeleccionada.id));
+
+                // Cierra el modal
                 setReservaSeleccionada(null);
               });
           }}
+
         />
       )}
     </section>
