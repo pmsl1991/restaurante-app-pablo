@@ -1,16 +1,18 @@
 import '../Styles/HeroSection.css';
 import Container from './Container';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const Menu = () => {
-   const menuItems = [
-      { name: 'Pasta Carbonara', price: '$12', description: 'Deliciosa pasta con salsa cremosa y panceta', image: '/assets/pasta.jpeg' },
-      { name: 'Pizza Margherita', price: '$10', description: 'Pizza clásica con tomate, mozzarella y albahaca', image: '/assets/pizza.jpeg' },
-      { name: 'Carne Asada', price: '$8', description: 'Jugosa carne a la parrilla con especias especiales', image: '/assets/carne.jpeg' },
-      { name: 'Pollo Asado', price: '$20', description: 'Pollo marinado y asado a la perfección', image: '/assets/pollo.jpeg' },
-   ];
-   const [mensaje, setMensaje] = useState('');
-   const [mostrarToast, setMostrarToast] = useState(false);
+  const [menuItems, setMenuItems] = useState([]);
+  const [mensaje, setMensaje] = useState('');
+  const [mostrarToast, setMostrarToast] = useState(false);
+
+  useEffect(() => {
+    fetch('http://localhost:3001/platos')
+      .then((res) => res.json())
+      .then((data) => setMenuItems(data))
+      .catch((error) => console.error('Error al obtener platos:', error));
+  }, []);
 
 
    const handleElegirPlato = (plato) => {
@@ -20,8 +22,22 @@ const Menu = () => {
          return;
       }
 
-      localStorage.setItem('platoReservado', JSON.stringify(plato));
-      setMensaje(`🍽️ ${plato.name} agregado a tu reservación `);
+      fetch('http://localhost:3001/platoSeleccionado', {
+         method: 'POST',
+         headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify(plato)
+         })
+         .then(res => {
+         if (!res.ok) throw new Error('Error al guardar plato');
+         return res.json();
+         })
+         .catch(err => {
+         console.error(err);
+         alert('Ocurrió un error al agregar el plato.');
+         });
+
+
+      setMensaje(`🍽️ ${plato.nombre} agregado a tu reservación `);
       setMostrarToast(true);
       setTimeout(() => {
             setMostrarToast(false);
@@ -39,10 +55,10 @@ const Menu = () => {
             <ul className="menu-list">
                {menuItems.map((item, index) => (
                   <li key={index} className="menu-item">
-                     <img src={item.image} alt={item.name} className="menu-image" />
-                     <h3>{item.name}</h3>
-                     <p>{item.description}</p>
-                     <span>{item.price}</span>
+                     <img src={item.imagen} alt={item.nombre} className="menu-image" />
+                     <h3>{item.nombre}</h3>
+                     <p>{item.descripcion}</p>
+                     <span>{item.precio}</span>
                      <button
                         className="add-button"
                         onClick={() => handleElegirPlato(item)}
