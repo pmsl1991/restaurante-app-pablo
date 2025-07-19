@@ -16,7 +16,7 @@ const ReservacionesHechas = () => {
   const [reservaSeleccionada, setReservaSeleccionada] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:3001/reservas')
+    fetch('https://json-backend-reservas2.onrender.com/reservas')
       .then(res => res.json())
       .then(data => {
         const eventosConvertidos = data.map(reserva => {
@@ -135,7 +135,7 @@ const ReservacionesHechas = () => {
           reserva={reservaSeleccionada}
           onClose={() => setReservaSeleccionada(null)}
           onGuardar={(reservaActualizada) => {
-            fetch(`http://localhost:3001/reservas/${reservaSeleccionada.id}`, {
+            fetch(`https://json-backend-reservas2.onrender.com/reservas/${reservaSeleccionada.id}`, {
               method: 'PUT',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(reservaActualizada)
@@ -159,7 +159,7 @@ const ReservacionesHechas = () => {
               });
           }}
           onEliminar={() => {
-            fetch(`http://localhost:3001/reservas/${reservaSeleccionada.id}`, {
+            fetch(`https://json-backend-reservas2.onrender.com/reservas/${reservaSeleccionada.id}`, {
               method: 'DELETE'
             })
               .then(() => {

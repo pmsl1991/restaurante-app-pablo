@@ -8,7 +8,7 @@ const Menu = () => {
   const [mostrarToast, setMostrarToast] = useState(false);
 
   useEffect(() => {
-    fetch('http://localhost:3001/platos')
+    fetch('https://json-backend-reservas2.onrender.com/platos')
       .then((res) => res.json())
       .then((data) => setMenuItems(data))
       .catch((error) => console.error('Error al obtener platos:', error));
@@ -22,7 +22,7 @@ const Menu = () => {
          return;
       }
 
-      fetch('http://localhost:3001/platoSeleccionado', {
+      fetch('https://json-backend-reservas2.onrender.com/platoSeleccionado', {
          method: 'POST',
          headers: { 'Content-Type': 'application/json' },
          body: JSON.stringify(plato)

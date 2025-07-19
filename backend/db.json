@@ -1,5 +1,20 @@
 
 {
+  "usuarios": [
+    {
+      "id": 1,
+      "username": "admin@gmail.com",
+      "password": "Admin123",
+      "rol": "admin"
+    },
+    {
+      "id": 2,
+      "username": "cliente1@gmail.com",
+      "password": "Cliente123",
+      "rol": "cliente"
+    }
+  ],
+
   "platos": [ 
     {
       "id": 1,
@@ -66,22 +81,14 @@
       "id": 3
     }
   ],
-  "platoSeleccionado": [
-    {
-      "id": 1,
-      "nombre": "Pasta Carbonara",
-      "descripcion": "Deliciosa pasta con salsa cremosa y panceta",
-      "precio": 12,
-      "imagen": "/assets/pasta.jpeg",
-      "categoria": "Pastas"
-    },
-    {
-      "id": 3,
-      "nombre": "Carne Asada",
-      "descripcion": "Jugosa carne a la parrilla con especias especiales",
-      "precio": 8,
-      "imagen": "/assets/carne.jpeg",
-      "categoria": "Carnes"
-    }
-  ]
+  "platoSeleccionado": {
+  "id": 3,
+  "nombre": "Carne Asada",
+  "descripcion": "Jugosa carne a la parrilla con especias especiales",
+  "precio": 8,
+  "imagen": "/assets/carne.jpeg",
+  "categoria": "Carnes"
+}
+    
+  
 }

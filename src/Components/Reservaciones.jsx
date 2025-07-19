@@ -31,7 +31,7 @@ const Reservaciones = () => {
   const [estadoMesas, setEstadoMesas] = useState({});
 
   useEffect(() => {
-    fetch('http://localhost:3001/reservas')
+    fetch('https://json-backend-reservas2.onrender.com/reservas')
       .then(res => res.json())
       .then(data => {
         setReservasHechas(data);
@@ -39,7 +39,7 @@ const Reservaciones = () => {
       });
 
     const userStr = localStorage.getItem('user');
-    fetch('http://localhost:3001/platoSeleccionado')
+    fetch('https://json-backend-reservas2.onrender.com/platoSeleccionado')
       .then(res => res.json())
       .then(data => setPlato(data));
 
@@ -74,7 +74,7 @@ const Reservaciones = () => {
       comensales
     };
 
-    fetch('http://localhost:3001/reservas', {
+    fetch('https://json-backend-reservas2.onrender.com/reservas', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(nuevaReserva)

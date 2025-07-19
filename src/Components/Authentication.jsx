@@ -37,71 +37,82 @@ const Authentication = ({ onClose }) => {
          setError('Correo inválido. Debe tener un formato válido como nombre@dominio.com');
          return;
       }
+
       if (!validarPassword(password)) {
          setError('Contraseña inválida. Debe tener mínimo 6 caracteres, incluyendo letras y números.');
          return;
       }
 
-      const esAdmin = username === 'admin@gmail.com'; // puedes personalizar este correo
-
-      const user = {
-         name: username,
-         rol: esAdmin ? 'admin' : 'cliente'
+      fetch('https://json-backend-reservas2.onrender.com/usuarios')
+         .then(res => res.json())
+         .then(data => {
+            const usuarioEncontrado = data.find(u => u.username === username && u.password === password);
+            if (usuarioEncontrado) {
+            const user = {
+               name: usuarioEncontrado.username,
+               rol: usuarioEncontrado.username === 'admin@gmail.com' ? 'admin' : 'cliente'
+            };
+            localStorage.setItem('user', JSON.stringify(user));
+            window.dispatchEvent(new Event('userLoggedIn'));
+            onClose();
+            window.location.href = '/';
+            } else {
+            setError('Credenciales incorrectas.');
+            }
+         })
+         .catch(err => {
+            console.error('Error al iniciar sesión:', err);
+            setError('Error de conexión con el servidor.');
+         });
       };
 
-      localStorage.setItem('user', JSON.stringify(user));
-      window.dispatchEvent(new Event('userLoggedIn')); 
-      onClose(); 
-      window.location.href = '/'; 
-   };
 
    //FUNCION DEL BTNREGISTRER
-   const handleRegister = (e) => {
-      e.preventDefault()
+   const handleRegister = async (e) => {
+      e.preventDefault();
 
-      //CREAMOS EL LOCALSTORAGE credenciales
-      const credenciales = { username, password };
-      localStorage.setItem('usuario', JSON.stringify(credenciales))
-
-      //OBJETO PARA GUARDAR LOS DATOS Y ENVIARLO AL LOCALSTORAGE
-      const formCredenciales = { username, password }
-      
-      //MSG DE ERROR VALIDACIONES
       if (!validarEmail(username)) {
          mostrarToast('Correo inválido. Debe tener un formato válido.', 'error');
          return;
       }
+
       if (!validarPassword(password1 || password2)) {
          mostrarToast('Contraseña inválida. Debe tener mínimo 6 caracteres, incluyendo letras y números.', 'error');
          return;
       }
-      //VALIDAR PASSWORD IGUALES
+
       if (password1 !== password2) {
-         mostrarToast('La contraseña deben ser iguales.', 'error')
-      } else {
-         setPassword(password2)
-         const existeDBLocal = JSON.parse(localStorage.getItem('credenciales')) || []
-         const yaRegistrado = existeDBLocal.some((cred) => cred.username === username)
-
-         if (yaRegistrado) {
-            mostrarToast('Este correo ya está registrado. Intenta iniciar sesión.', 'error');
+         mostrarToast('Las contraseñas no coinciden.', 'error');
          return;
-         }
-
-         // Guardar un usuario si no está registrado
-         existeDBLocal.push(formCredenciales)
-         localStorage.setItem('credenciales', JSON.stringify(existeDBLocal))
-
-         mostrarToast('Usuario registrado correctamente ✅', 'success');
-
-
-         setUsername('')
-         setPassword1('')
-         setPassword2('')
-         setError('')
-         !showRegister
       }
-   }
+
+      // Validar si ya existe el usuario en la base de datos
+      const response = await fetch(`https://json-backend-reservas2.onrender.com/usuarios?username=${username}`);
+      const usuarios = await response.json();
+
+      if (usuarios.length > 0) {
+         mostrarToast('Este correo ya está registrado. Intenta iniciar sesión.', 'error');
+         return;
+      }
+
+      // Crear nuevo usuario
+      const nuevoUsuario = { username, password: password1, rol: 'cliente' };
+
+      await fetch('https://json-backend-reservas2.onrender.com/usuarios', {
+         method: 'POST',
+         headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify(nuevoUsuario)
+      });
+
+      mostrarToast('Usuario registrado correctamente ✅', 'success');
+
+      setUsername('');
+      setPassword1('');
+      setPassword2('');
+      setError('');
+      setShowRegister(false); // Cambia a vista de login
+      };
+
 
    //FUNCION DE VISTA DEL LOGIN O REGISTER
    const handleShowRegister = () => {
