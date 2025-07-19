@@ -16,7 +16,7 @@ const Authentication = ({ onClose }) => {
    };
    // VALIDADION DEL INPUT PASSWORD
    const validarPassword = (pass) => {
-      return /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(pass);
+      return /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{6,}$/.test(pass);
    };
 
    const mostrarToast = (mensaje, tipo = 'success') => {
