@@ -1,10 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './Components/Navbar.jsx';
 import Footer from './Components/Footer.jsx';
-import HeroSection from './Components/HeroSection.jsx';
-import Menu from './Components/Menu.jsx';
-import Reservaciones from './Components/Reservaciones.jsx';
-import ReservacionesHechas from './Components/ReservacionesHechas';
+import Reservaciones from './Pages/Reservaciones.jsx';
+import ReservacionesHechas from './Pages/ReservacionesHechas.jsx';
+import Inicio from './pages/Inicio.jsx';
 import './App.css';
 
 const App = () => {
@@ -15,17 +14,10 @@ const App = () => {
       <Navbar />
       <main>
       <Routes>
-        <Route
-          path="/"
-          element={
-            <>
-              <HeroSection />
-              <Menu />
-            </>
-          }
-        />
+        {/* Page Inicio */}
+        <Route path="/" element={<Inicio />} />
+        {/* Page Reservaciones */}
         <Route path="/reservaciones" element={<Reservaciones />} />
-
         {/* ✅ Solo el ADMIN puede acceder */}
         {user?.rol === 'admin' && (
           <Route path="/reservaciones-hechas" element={<ReservacionesHechas />} />

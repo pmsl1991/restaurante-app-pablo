@@ -1,4 +1,4 @@
-import '../Styles/HeroSection.css';
+import '../Styles/Footer.css';
 
 const Footer = () => {
   return (

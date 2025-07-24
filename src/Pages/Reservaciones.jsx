@@ -1,8 +1,8 @@
+import '../Styles/Reservaciones.css';
 import { useEffect, useState } from 'react';
-import '../Styles/HeroSection.css';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import Container from './Container';
+import Container from '../Components/Container';
 
 const mesasDisponibles = Array.from({ length: 16 }, (_, i) => ({
   id: i + 1,

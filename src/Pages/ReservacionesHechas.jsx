@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import '../Styles/HeroSection.css';
-import Container from './Container';
-import EditarReservaModal from './EditarReservaModal';
+import '../Styles/ReservacionesHechas.css';
+import Container from '../Components/Container';
+import EditarReservaModal from '../Components/EditarReservaModal';
 import { Clock, UsersRound } from 'lucide-react';
 
 const localizer = momentLocalizer(moment);

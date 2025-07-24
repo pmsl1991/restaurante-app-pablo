@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import '../Styles/Authentication.css';
-import { ChefHat, User } from 'lucide-react';
+import { ChefHat, User, X } from 'lucide-react';
+import '../Styles/Login.css';
+
 
 const Authentication = ({ onClose }) => {
    const [username, setUsername] = useState('');
@@ -9,6 +11,7 @@ const Authentication = ({ onClose }) => {
    const [password2, setPassword2] = useState('');
    const [error, setError] = useState('');
    const [showRegister, setShowRegister] = useState(false)
+   const [termsAccepted, setTermsAccepted] = useState(false)
 
    // VALIDADION DEL INPUT EMAIL
    const validarEmail = (email) => {
@@ -110,7 +113,7 @@ const Authentication = ({ onClose }) => {
       setPassword1('');
       setPassword2('');
       setError('');
-      setShowRegister(false); // Cambia a vista de login
+      setShowRegister(false); // Cambia la vista de login
       };
 
 
@@ -119,20 +122,27 @@ const Authentication = ({ onClose }) => {
       setShowRegister(!showRegister)
    }
 
-   return (
-      <article>
-         {
-            !showRegister ?
+   //VALIDACION DEL CHECKBOX - HABILITA BTN REGISTRAR
+   const handleCheckboxChange = () => {
+    setTermsAccepted(!termsAccepted)
+   }
 
-               //Login
-               <div className='login-container'>
-                  <section style={{ display: 'flex', flexDirection: 'column', marginBottom: '2rem', alignItems: 'center', gap: '.6rem' }}>
-                     <div style={{ backgroundColor: '#f97316', display: 'flex', justifyContent: 'center', alignItems: 'center', width: '65px', height: '65px', borderRadius: '50%' }}>
-                        <ChefHat style={{ color: '#eeee', width: '32px', height: '32px' }} />
+     return (
+            <article className="login-wrapper">
+               {!showRegister ? (
+                  // Login
+                  <div className='login-container'>
+                    <div className='login-close-button' onClick={onClose}>
+                        <X size={20} />
+                    </div>
+                  <section className='login-header'>
+                     <div className='login-icon-container'>
+                        <ChefHat className='login-icon' />
                      </div>
-                     <h2 style={{ textAlign: 'center', fontSize: '1.7rem' }}>Iniciar Sesión</h2>
-                     <p style={{ color: '#9ca3af' }}>Accede a tu cuenta para continuar</p>
+                     <h2 className='login-title'>Iniciar Sesión</h2>
+                     <p className='login-subtext'>Accede a tu cuenta para continuar</p>
                   </section>
+
                   <section className='login-form'>
                      <label>Correo Electrónico</label>
                      <input
@@ -141,10 +151,10 @@ const Authentication = ({ onClose }) => {
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                         onKeyDown={(e) => e.key === 'Enter' && handleLogin(e)}
-                        style={{ marginBottom: '.8rem' }}
                      />
 
-                        <input
+                     <label>Contraseña</label>
+                     <input
                         type="password"
                         placeholder="..............."
                         value={password}
@@ -152,33 +162,38 @@ const Authentication = ({ onClose }) => {
                         onKeyDown={(e) => e.key === 'Enter' && handleLogin(e)}
                      />
 
-
-                     {error && <p style={{ color: 'red', marginBottom: '10px', fontSize: '14px' }}>{error}</p>}
-
+                     {error && <p className='error-message'>{error}</p>}
                   </section>
-                  <section style={{ padding: '16px 0', display: 'flex', justifyContent: 'flex-end' }}>
-                     <a href="" className='a'>¿Olvidaste tu contraseña?</a>
+
+                  <section className='forgot-password-section'>
+                     <a href="" className='login-link'>¿Olvidaste tu contraseña?</a>
                   </section>
-                  <section style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', gap: '15px' }}>
+
+                  <section className='actions-section'>
                      <button onClick={handleLogin} className='btn-login'>Iniciar Sesión</button>
                      <button onClick={onClose} className='btn-close'>Cancelar</button>
                   </section>
-                  <section style={{ padding: '18px 0 0', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                     <p style={{ color: '#9ca3af' }}>¿No tienes cuenta?<a onClick={handleShowRegister} className='a' style={{ marginLeft: '5px', fontSize: '16px', cursor: 'pointer' }}>Regístrate aquí</a></p>
+
+                  <section className='switch-auth-section'>
+                     <p className='switch-text'>¿No tienes cuenta?
+                        <a onClick={handleShowRegister} className='login-link switch-link'> Regístrate aquí</a>
+                     </p>
                   </section>
-               </div>
-
-               :
-
-               //Register
-               <div className='login-container'>
-                  <section style={{ display: 'flex', flexDirection: 'column', marginBottom: '2rem', alignItems: 'center', gap: '.6rem' }}>
-                     <div style={{ backgroundColor: '#22c55e', display: 'flex', justifyContent: 'center', alignItems: 'center', width: '65px', height: '65px', borderRadius: '50%' }}>
-                        <User style={{ color: '#eeee', width: '32px', height: '32px' }} />
+                  </div>
+               ) : (
+                  // Register
+                  <div className='login-container'>
+                     <div className='login-close-button' onClick={onClose}>
+                        <X size={20} />
                      </div>
-                     <h2 style={{ textAlign: 'center', fontSize: '1.7rem' }}>Crear Cuenta</h2>
-                     <p style={{ color: '#9ca3af' }}>Accede a tu cuenta para continuar</p>
+                  <section className='login-header'>
+                     <div className='register-icon-container'>
+                        <User className='register-icon' />
+                     </div>
+                     <h2 className='login-title'>Crear Cuenta</h2>
+                     <p className='login-subtext'>Accede a tu cuenta para continuar</p>
                   </section>
+
                   <section className='login-form'>
                      <label>Correo Electrónico</label>
                      <input
@@ -186,16 +201,16 @@ const Authentication = ({ onClose }) => {
                         placeholder="tu@email.com"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
-                        style={{ marginBottom: '.8rem' }}
                      />
+
                      <label>Contraseña</label>
                      <input
                         type="password"
                         placeholder="..............."
                         value={password1}
                         onChange={(e) => setPassword1(e.target.value)}
-                        style={{ marginBottom: '.8rem' }}
                      />
+
                      <label>Confirmar Contraseña</label>
                      <input
                         type="password"
@@ -204,28 +219,37 @@ const Authentication = ({ onClose }) => {
                         onChange={(e) => setPassword2(e.target.value)}
                      />
 
-                     {error && <p style={{ color: 'red', marginBottom: '10px', fontSize: '14px' }}>{error}</p>}
+                     {error && <p className='error-message'>{error}</p>}
+                  </section>
 
+                  <section className='terms-section'>
+                     <input type="checkbox" onChange={handleCheckboxChange} />
+                     <p className='terms-text'>Acepto los <a className='login-link terms-link'>términos y condiciones</a></p>
                   </section>
-                  <section style={{ padding: '16px 0', display: 'flex', alignItems: 'center' }}>
-                     <input type="checkbox" style={{ cursor: 'pointer' }} /><p style={{ fontSize: '14px', paddingLeft: '8px' }}>Acepto los <a className='a' style={{ color: '#22c55e' }}>términos y condiciones</a></p>
-                  </section>
-                  <section style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', gap: '15px' }}>
-                     <button onClick={handleRegister} className='btn-register'>Crear Cuenta</button>
+
+                  <section className='actions-section'>
+                     <button
+                        onClick={handleRegister}
+                        className='btn-register'
+                        disabled={!termsAccepted}
+                     >
+                        Crear Cuenta
+                     </button>
                      <button onClick={onClose} className='btn-close'>Cancelar</button>
                   </section>
-                  <section style={{ padding: '18px 0 0', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                     <p style={{ color: '#9ca3af' }}>¿Ya tienes cuenta?<a onClick={handleShowRegister} className='a' style={{ marginLeft: '5px', fontSize: '16px', cursor: 'pointer' }}>Inicia sesión</a></p>
+
+                  <section className='switch-auth-section'>
+                     <p className='switch-text'>¿Ya tienes cuenta?
+                        <a onClick={handleShowRegister} className='login-link switch-link'> Inicia sesión</a>
+                     </p>
                   </section>
-               </div>
-         }
+                  </div>
+               )}
 
-         <div id="toast" className="toast"></div>
+               <div id="toast" className="toast"></div>
+            </article>
+            );
+            };
 
-
-
-      </article>
-   );
-};
 
 export default Authentication;
